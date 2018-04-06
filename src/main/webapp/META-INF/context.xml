@@ -1,0 +1,11 @@
+<Context>
+
+    <Resource name="jdbc/books-jdbc-jsp-servlets" auth="Container"
+              type="javax.sql.DataSource" maxActive="100"
+              maxIdle="30" maxWait="10000"
+              username="dbo"
+              password="dbo"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/books-jdbc-jsp-servlets?useSSL=false"/>
+
+</Context>
