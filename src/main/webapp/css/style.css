@@ -6,11 +6,14 @@ table {
     margin-bottom: 30px;
 }
 
-.book-list {
+.book-list,
+.author-list {
     border-collapse: collapse;
 }
 
-.book-list td {
+th,
+.book-list td,
+.author-list td{
     border: 1px solid black;
     padding: 5px 10px;
 }

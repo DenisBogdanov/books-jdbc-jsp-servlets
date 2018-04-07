@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/list")
+@WebServlet("/books")
 public class BookControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 6247337045885715144L;
 

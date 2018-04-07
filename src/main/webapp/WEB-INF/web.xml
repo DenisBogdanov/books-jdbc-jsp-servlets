@@ -5,19 +5,19 @@
 
     <display-name>books-jdbc-jsp-servlets</display-name>
 
-    <!--<servlet>-->
-        <!--<servlet-name>BookControllerServlet</servlet-name>-->
-        <!--<servlet-class>ru.bogdanium.books.controller.BookControllerServlet</servlet-class>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>AuthorControllerServlet</servlet-name>
+        <servlet-class>ru.bogdanium.books.controller.AuthorControllerServlet</servlet-class>
+    </servlet>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>BookControllerServlet</servlet-name>-->
-        <!--<url-pattern>/list</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>AuthorControllerServlet</servlet-name>
+        <url-pattern>/authors</url-pattern>
+    </servlet-mapping>
 
 
     <welcome-file-list>
-        <welcome-file>list</welcome-file>
+        <welcome-file>books</welcome-file>
     </welcome-file-list>
 
 </web-app>
