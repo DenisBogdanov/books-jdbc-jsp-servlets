@@ -4,10 +4,7 @@ import ru.bogdanium.books.model.Author;
 import ru.bogdanium.books.model.Book;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,10 @@ public class BookDaoImpl implements BookDao {
     private static final String SQL_GET_ALL_BOOKS = "" +
             " SELECT b.id, b.title, a.id, a.first_name, a.last_name" +
             " FROM book b" +
-            " JOIN author a ON b.author_id = a.id";
+            " JOIN author a ON b.author_id = a.id" +
+            " ORDER BY b.title";
+
+    private static final String SQL_ADD_BOOK = "INSERT INTO book (title, author_id) VALUES(?, ?)";
 
     private DataSource dataSource;
 
@@ -35,15 +35,15 @@ public class BookDaoImpl implements BookDao {
 
             while (rs.next()) {
 
-                Book book = new Book(
-                        rs.getInt(1),               // book.id
-                        rs.getString(2),            // book.title
-                        new Author(
+                Book book = new Book
+                        .Builder(rs.getString(2))
+                        .id(rs.getInt(1))
+                        .author(new Author(
                                 rs.getInt(3),       // author.id
                                 rs.getString(4),    // author.first_name
                                 rs.getString(5)     // author.last_name
-                        )
-                );
+                        ))
+                        .build();
 
                 books.add(book);
             }
@@ -65,6 +65,19 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public boolean add(Book book) {
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_ADD_BOOK)) {
+
+            statement.setString(1, book.getTitle());
+            statement.setInt(2, book.getAuthorId());
+            System.out.println("OK");
+
+            return statement.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         return false;
     }
 

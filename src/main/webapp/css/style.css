@@ -1,3 +1,16 @@
 body {
     font-family: Arial;
 }
+
+table {
+    margin-bottom: 30px;
+}
+
+.book-list {
+    border-collapse: collapse;
+}
+
+.book-list td {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
