@@ -67,13 +67,12 @@ public class BookDaoImpl implements BookDao {
     public boolean add(Book book) {
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_BOOK)) {
+             PreparedStatement ps = connection.prepareStatement(SQL_ADD_BOOK)) {
 
-            statement.setString(1, book.getTitle());
-            statement.setInt(2, book.getAuthorId());
-            System.out.println("OK");
+            ps.setString(1, book.getTitle());
+            ps.setInt(2, book.getAuthorId());
 
-            return statement.execute();
+            return ps.execute();
 
         } catch (SQLException e) {
             System.out.println(e);

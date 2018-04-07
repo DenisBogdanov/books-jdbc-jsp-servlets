@@ -11,6 +11,38 @@
 <div class="container">
     <h1>Authors</h1>
 
+    <h2>Add New Author</h2>
+    <form action="authors" method="post">
+
+        <table>
+            <input type="hidden" name="action" value="ADD">
+            <tr>
+                <td>
+                    <label for="first-name">First name:</label>
+                </td>
+                <td>
+                    <input type="text" name="first-name" id="first-name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="last-name">Last name:</label>
+                </td>
+                <td>
+                    <input type="text" name="last-name" id="last-name">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="Add">
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
     <table class="author-list">
         <tr>
             <th>First Name</th>

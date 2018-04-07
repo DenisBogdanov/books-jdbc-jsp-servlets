@@ -9,8 +9,8 @@ public class Author {
     private String lastName;
     private List<Book> books;
 
-    public Author(String firstName, String lastName, List<Book> books) {
-        this(null, firstName, lastName, books);
+    public Author(String firstName, String lastName) {
+        this(null, firstName, lastName, null);
     }
 
     public Author(Integer id, String firstName, String lastName) {
@@ -57,7 +57,7 @@ public class Author {
     }
 
     public String getFullName() {
-        return firstName + " " + lastName;
+        return lastName + ", " + firstName;
     }
 
     @Override

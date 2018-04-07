@@ -12,7 +12,7 @@
     <h1>Books</h1>
 
     <h2>Add New Book</h2>
-    <form userAction="list" method="post">
+    <form action="books" method="post">
 
         <table>
             <input type="hidden" name="action" value="ADD">
@@ -35,6 +35,7 @@
                         </c:forEach>
                     </select>
                 </td>
+                <td><a href="authors">Add author</a></td>
             </tr>
 
             <tr>

@@ -3,16 +3,15 @@ package ru.bogdanium.books.dao;
 import ru.bogdanium.books.model.Author;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDaoImpl implements AuthorDao {
 
-    public static final String GET_ALL_AUTHORS = "SELECT * FROM author ORDER BY last_name";
+    private static final String GET_ALL_AUTHORS = "SELECT * FROM author ORDER BY last_name";
+    private static final String SQL_ADD_AUTHOR = "INSERT INTO author (first_name, last_name) VALUES (?, ?)";
+
     private DataSource dataSource;
 
     public AuthorDaoImpl(DataSource dataSource) {
@@ -52,6 +51,19 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public boolean add(Author author) {
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_ADD_AUTHOR)){
+
+            ps.setString(1, author.getFirstName());
+            ps.setString(2, author.getLastName());
+
+            return ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

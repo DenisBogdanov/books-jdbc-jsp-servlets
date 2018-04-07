@@ -39,4 +39,15 @@ public class AuthorControllerServlet extends HttpServlet {
         request.getRequestDispatcher("authors.jsp")
                 .forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String firstName = request.getParameter("first-name");
+        String lastName = request.getParameter("last-name");
+
+        authorDao.add(new Author(firstName, lastName));
+
+        doGet(request, response);
+    }
 }
