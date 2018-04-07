@@ -4,6 +4,9 @@
 <head>
     <title>Books</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css"
+          integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
 </head>
 <body>
 
@@ -56,7 +59,11 @@
 
         <c:forEach var="book" items="${books}">
             <tr>
-                <td><a href="books?${book.slug}&action=LOAD&id=${book.id}">${book.title}</a></td>
+                <td>
+                    <a href="books?${book.slug}&action=LOAD&id=${book.id}">${book.title}</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="books?${book.slug}&action=DELETE&id=${book.id}"><i class="far fa-trash-alt"></i></a>
+                </td>
                 <td>${book.author.fullName}</td>
             </tr>
         </c:forEach>

@@ -65,10 +65,23 @@ public class BookControllerServlet extends HttpServlet {
             case "UPDATE":
                 updateBook(request, response);
                 break;
+            case "DELETE":
+                deleteBook(request, response);
+                break;
             default:
                 getAllBooks(request, response);
                 break;
         }
+    }
+
+    private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        Book book = new Book.Builder("")
+                .id(id)
+                .build();
+        bookDao.delete(book);
+
+        getAllBooks(request, response);
     }
 
     private void updateBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

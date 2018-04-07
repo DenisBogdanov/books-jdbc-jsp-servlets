@@ -28,3 +28,12 @@ select {
     width: 250px;
     font-size: 14px;
 }
+
+.fa-trash-alt {
+    float: right;
+}
+
+.fa-trash-alt:hover {
+    color: red;
+    cursor: pointer;
+}

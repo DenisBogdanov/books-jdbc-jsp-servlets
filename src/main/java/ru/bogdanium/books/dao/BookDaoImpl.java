@@ -26,6 +26,8 @@ public class BookDaoImpl implements BookDao {
 
     private static final String SQL_UPDATE_BOOK = "UPDATE book SET title = ?, author_id = ? WHERE id = ?";
 
+    private static final String SQL_DELETE_BOOK = "DELETE FROM book WHERE id = ?";
+
     private DataSource dataSource;
 
     public BookDaoImpl(DataSource dataSource) {
@@ -136,6 +138,16 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public boolean delete(Book book) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BOOK)) {
+
+            ps.setInt(1, book.getId());
+
+            return ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
