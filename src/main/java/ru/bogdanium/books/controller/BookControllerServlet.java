@@ -5,6 +5,7 @@ import ru.bogdanium.books.dao.BookDaoImpl;
 import ru.bogdanium.books.model.Book;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet("/")
@@ -34,10 +34,13 @@ public class BookControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
 
         List<Book> books = bookDao.getAll();
 
-        out.println(books);
+        request.setAttribute("books", books);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/books.jsp");
+        dispatcher.forward(request, response);
+
     }
 }
