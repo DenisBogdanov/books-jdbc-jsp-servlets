@@ -1,19 +1,47 @@
 package ru.bogdanium.books.model;
 
 public class Book {
-
     private Integer id;
     private String title;
     private Author author;
+    private Integer authorId;
 
-    public Book(String title, Author author) {
-        this(null, title, author);
+    public static class Builder {
+        private String title;
+
+        private Integer id = null;
+        private Author author = null;
+        private Integer authorId = null;
+
+        public Builder(String title) {
+            this.title = title;
+        }
+
+        public Builder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder author(Author author) {
+            this.author = author;
+            return this;
+        }
+
+        public Builder authorId(Integer authorId) {
+            this.authorId = authorId;
+            return this;
+        }
+
+        public Book build() {
+            return new Book(this);
+        }
     }
 
-    public Book(Integer id, String title, Author author) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
+    public Book(Builder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.author = builder.author;
+        this.authorId = builder.authorId;
     }
 
     public Integer getId() {
@@ -38,6 +66,10 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
     }
 
     @Override
