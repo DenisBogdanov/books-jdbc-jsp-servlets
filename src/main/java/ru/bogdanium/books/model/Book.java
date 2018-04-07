@@ -1,10 +1,13 @@
 package ru.bogdanium.books.model;
 
+import com.github.slugify.Slugify;
+
 public class Book {
     private Integer id;
     private String title;
     private Author author;
     private Integer authorId;
+    private String slug;
 
     public static class Builder {
         private String title;
@@ -42,6 +45,9 @@ public class Book {
         this.title = builder.title;
         this.author = builder.author;
         this.authorId = builder.authorId;
+
+        Slugify slugify = new Slugify();
+        slug = slugify.slugify(title);
     }
 
     public Integer getId() {
@@ -70,6 +76,10 @@ public class Book {
 
     public Integer getAuthorId() {
         return authorId;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 
     @Override

@@ -59,10 +59,24 @@ public class BookControllerServlet extends HttpServlet {
             case "ADD":
                 addBook(request, response);
                 break;
+            case "LOAD":
+                loadBook(request, response);
+                break;
             default:
                 getAllBooks(request, response);
                 break;
         }
+    }
+
+    private void loadBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Book book = getBookByIdFromRequest(request);
+        List<Author> authors = authorDao.getAll();
+
+        request.setAttribute("book", book);
+        request.setAttribute("authors", authors);
+
+        request.getRequestDispatcher("book.jsp").forward(request, response);
     }
 
     private void getAllBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,7 +86,7 @@ public class BookControllerServlet extends HttpServlet {
         request.setAttribute("books", books);
         request.setAttribute("authors", authors);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/books.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("books.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -87,4 +101,20 @@ public class BookControllerServlet extends HttpServlet {
         bookDao.add(book);
         getAllBooks(request, response);
     }
+
+    private Book getBookByIdFromRequest(HttpServletRequest request) throws ServletException {
+        Book book;
+        try {
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            book = bookDao.findById(id);
+            if (book == null) {
+                throw new ServletException("There is no book with such id.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Could not find book with id=" + request.getParameter("id"));
+        }
+        return book;
+    }
+
 }

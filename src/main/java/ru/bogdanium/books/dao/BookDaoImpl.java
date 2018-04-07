@@ -18,6 +18,12 @@ public class BookDaoImpl implements BookDao {
 
     private static final String SQL_ADD_BOOK = "INSERT INTO book (title, author_id) VALUES(?, ?)";
 
+    private static final String SQL_GET_BOOK_BY_ID = "" +
+            " SELECT b.title, a.id, a.first_name, a.last_name" +
+            " FROM book b" +
+            " JOIN author a ON b.author_id = a.id" +
+            " WHERE b.id = ?";
+
     private DataSource dataSource;
 
     public BookDaoImpl(DataSource dataSource) {
@@ -48,18 +54,45 @@ public class BookDaoImpl implements BookDao {
                 books.add(book);
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> getByAuthor(Author author) {
+    public List<Book> findByAuthor(Author author) {
         return null;
     }
 
     @Override
-    public Book getById(Integer id) {
+    public Book findById(Integer id) {
+
+        Book book = null;
+        ResultSet rs = null;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_GET_BOOK_BY_ID)) {
+
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                book = new Book.Builder(rs.getString(1))
+                        .id(id)
+                        .author(new Author(
+                                rs.getInt(2),       // author.id
+                                rs.getString(3),    // author.first_name
+                                rs.getString(4)     // author.last_name
+                        ))
+                        .build();
+            }
+            return book;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cleanUp(rs);
+        }
         return null;
     }
 
@@ -88,5 +121,15 @@ public class BookDaoImpl implements BookDao {
     @Override
     public boolean delete(Book book) {
         return false;
+    }
+
+    private void cleanUp(ResultSet rs) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

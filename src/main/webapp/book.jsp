@@ -1,27 +1,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="book" scope="request" type="ru.bogdanium.books.model.Book"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Books</title>
+    <title>${book.title}</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 
 <div class="container">
-    <h1>Books</h1>
+    <h1>${book.title}</h1>
 
-    <h2>Add New Book</h2>
+    <h2>Update</h2>
     <form action="books" method="post">
 
-        <input type="hidden" name="action" value="ADD">
+        <input type="hidden" name="action" value="UPDATE">
         <table>
             <tr>
                 <td>
                     <label for="title">Title:</label>
                 </td>
                 <td>
-                    <input type="text" name="title" id="title">
+                    <input type="text" name="title" id="title" value="${book.title}">
                 </td>
             </tr>
             <tr>
@@ -30,8 +31,14 @@
                 </td>
                 <td>
                     <select name="author-id" id="author">
+                        <option value="${book.author.id}">${book.author.fullName}</option>
+
                         <c:forEach var="author" items="${authors}">
-                            <option value="${author.id}">${author.fullName}</option>
+
+                            <c:if test="${author.id != book.author.id}">
+                                <option value="${author.id}">${author.fullName}</option>
+                            </c:if>
+
                         </c:forEach>
                     </select>
                 </td>
@@ -40,28 +47,13 @@
 
             <tr>
                 <td>
-                    <input type="submit" value="Add">
+                    <input type="submit" value="Update">
                 </td>
             </tr>
 
         </table>
 
     </form>
-
-    <table class="book-list">
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-        </tr>
-
-        <c:forEach var="book" items="${books}">
-            <tr>
-                <td><a href="books?${book.slug}&action=LOAD&id=${book.id}">${book.title}</a></td>
-                <td>${book.author.fullName}</td>
-            </tr>
-        </c:forEach>
-
-    </table>
 
 </div>
 

@@ -9,9 +9,9 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    List<Book> getByAuthor(Author author);
+    List<Book> findByAuthor(Author author);
 
-    Book getById(Integer id);
+    Book findById(Integer id);
 
     boolean add(Book book);
 
