@@ -12,8 +12,19 @@ table {
 }
 
 th,
+td {
+    padding: 5px 10px;
+}
+
+th,
 .book-list td,
 .author-list td{
     border: 1px solid black;
-    padding: 5px 10px;
+}
+
+input[type="text"],
+select {
+    padding: 5px;
+    width: 250px;
+    font-size: 14px;
 }
