@@ -28,6 +28,12 @@ public class BookDaoImpl implements BookDao {
 
     private static final String SQL_DELETE_BOOK = "DELETE FROM book WHERE id = ?";
 
+    private static final String SQL_SEARCH_BOOKS = "" +
+            " SELECT b.id, b.title, a.id, a.first_name, a.last_name" +
+            " FROM book b" +
+            " JOIN author a ON b.author_id = a.id" +
+            " WHERE b.title LIKE ?";
+
     private DataSource dataSource;
 
     public BookDaoImpl(DataSource dataSource) {
@@ -36,7 +42,6 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-
         List<Book> books = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -66,6 +71,43 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findByAuthor(Author author) {
         return null;
+    }
+
+    @Override
+    public List<Book> searchByPattern(String pattern) {
+        List<Book> books = new ArrayList<>();
+        ResultSet rs = null;
+
+        if (pattern == null || pattern.trim().length() == 0) {
+            return getAll();
+        }
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_SEARCH_BOOKS)) {
+
+            ps.setString(1, "%" + pattern + "%");
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Book book = new Book.Builder(rs.getString(2))
+                        .id(1)
+                        .author(new Author(
+                                rs.getInt(3),       // author.id
+                                rs.getString(4),    // author.first_name
+                                rs.getString(5)     // author.last_name
+                        ))
+                        .build();
+
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cleanUp(rs);
+        }
+
+        return books;
     }
 
     @Override

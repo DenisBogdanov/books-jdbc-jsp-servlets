@@ -68,10 +68,22 @@ public class BookControllerServlet extends HttpServlet {
             case "DELETE":
                 deleteBook(request, response);
                 break;
+            case "SEARCH":
+                searchBooks(request, response);
+                break;
             default:
                 getAllBooks(request, response);
                 break;
         }
+    }
+
+    private void searchBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String searchPattern = request.getParameter("search-pattern");
+
+        List<Book> books = bookDao.searchByPattern(searchPattern);
+        request.setAttribute("books", books);
+
+        request.getRequestDispatcher("books.jsp").forward(request, response);
     }
 
     private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

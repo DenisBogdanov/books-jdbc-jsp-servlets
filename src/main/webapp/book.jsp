@@ -12,7 +12,6 @@
 <div class="container">
     <h1>${book.title}</h1>
 
-    <h2>Update</h2>
     <form action="books" method="post">
 
         <input type="hidden" name="action" value="UPDATE">

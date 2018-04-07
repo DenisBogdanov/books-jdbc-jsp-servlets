@@ -11,6 +11,8 @@ public interface BookDao {
 
     List<Book> findByAuthor(Author author);
 
+    List<Book> searchByPattern(String pattern);
+
     Book findById(Integer id);
 
     boolean add(Book book);

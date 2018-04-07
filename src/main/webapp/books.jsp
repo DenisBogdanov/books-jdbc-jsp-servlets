@@ -14,6 +14,14 @@
 <div class="container">
     <h1>Books</h1>
 
+    <div class="search">
+        <form action="books" method="get">
+            <input type="hidden" name="action" value="SEARCH">
+            <input type="text" name="search-pattern" id="search">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
     <h2>Add New Book</h2>
     <form action="books" method="post">
 
