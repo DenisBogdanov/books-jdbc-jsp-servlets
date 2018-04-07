@@ -24,6 +24,8 @@ public class BookDaoImpl implements BookDao {
             " JOIN author a ON b.author_id = a.id" +
             " WHERE b.id = ?";
 
+    private static final String SQL_UPDATE_BOOK = "UPDATE book SET title = ?, author_id = ? WHERE id = ?";
+
     private DataSource dataSource;
 
     public BookDaoImpl(DataSource dataSource) {
@@ -115,6 +117,20 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public boolean update(Book book) {
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_UPDATE_BOOK)) {
+
+            ps.setString(1, book.getTitle());
+            ps.setInt(2, book.getAuthorId());
+            ps.setInt(3, book.getId());
+
+            return ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

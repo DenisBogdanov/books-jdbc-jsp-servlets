@@ -62,14 +62,30 @@ public class BookControllerServlet extends HttpServlet {
             case "LOAD":
                 loadBook(request, response);
                 break;
+            case "UPDATE":
+                updateBook(request, response);
+                break;
             default:
                 getAllBooks(request, response);
                 break;
         }
     }
 
-    private void loadBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void updateBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.valueOf(request.getParameter("book-id"));
+        String title = request.getParameter("title");
+        Integer authorId = Integer.valueOf(request.getParameter("author-id"));
 
+        Book book = new Book.Builder(title)
+                .id(id)
+                .authorId(authorId)
+                .build();
+
+        bookDao.update(book);
+        getAllBooks(request, response);
+    }
+
+    private void loadBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Book book = getBookByIdFromRequest(request);
         List<Author> authors = authorDao.getAll();
 
@@ -92,7 +108,7 @@ public class BookControllerServlet extends HttpServlet {
 
     private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String title = request.getParameter("title");
-        int authorId = Integer.parseInt(request.getParameter("author-id"));
+        Integer authorId = Integer.valueOf(request.getParameter("author-id"));
 
         Book book = new Book.Builder(title)
                 .authorId(authorId)
@@ -105,7 +121,7 @@ public class BookControllerServlet extends HttpServlet {
     private Book getBookByIdFromRequest(HttpServletRequest request) throws ServletException {
         Book book;
         try {
-            Integer id = Integer.parseInt(request.getParameter("id"));
+            Integer id = Integer.valueOf(request.getParameter("id"));
             book = bookDao.findById(id);
             if (book == null) {
                 throw new ServletException("There is no book with such id.");

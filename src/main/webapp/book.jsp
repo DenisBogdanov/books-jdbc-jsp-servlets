@@ -16,6 +16,8 @@
     <form action="books" method="post">
 
         <input type="hidden" name="action" value="UPDATE">
+        <input type="hidden" name="book-id" value="${book.id}">
+
         <table>
             <tr>
                 <td>
