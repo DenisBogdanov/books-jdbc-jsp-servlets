@@ -51,9 +51,4 @@
         </c:forEach>
     </ul>
 
-    <a href="books">Books</a>
-
-</div>
-
-</body>
-</html>
+    <c:import url="includes/footer.jsp"/>

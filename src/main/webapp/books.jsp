@@ -79,9 +79,4 @@
 
     </table>
 
-    <a href="authors">Authors</a>
-
-</div>
-
-</body>
-</html>
+    <c:import url="includes/footer.jsp"/>

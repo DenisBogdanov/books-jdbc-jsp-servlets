@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -5,8 +6,7 @@
 </head>
 <body>
 
-<h1>404</h1>
-<a href="books">Books</a>
+<div class="container">
+    <h1>404</h1>
 
-</body>
-</html>
+    <c:import url="includes/footer.jsp"/>
