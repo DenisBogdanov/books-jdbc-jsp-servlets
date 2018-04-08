@@ -43,20 +43,15 @@
 
     </form>
 
-    <table class="author-list">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-
+    <ul>
         <c:forEach var="author" items="${authors}">
-            <tr>
-                <td>${author.firstName}</td>
-                <td>${author.lastName}</td>
-            </tr>
+            <li>
+                <a href="authors?action=LOAD&id=${author.id}">${author.firstName} ${author.lastName}</a>
+            </li>
         </c:forEach>
+    </ul>
 
-    </table>
+    <a href="books">Books</a>
 
 </div>
 

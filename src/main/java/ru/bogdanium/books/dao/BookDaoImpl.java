@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.bogdanium.books.dao.DbUtil.cleanUp;
+
 public class BookDaoImpl implements BookDao {
 
     private static final String SQL_GET_ALL_BOOKS = "" +
@@ -16,23 +18,22 @@ public class BookDaoImpl implements BookDao {
             " JOIN author a ON b.author_id = a.id" +
             " ORDER BY b.title";
 
-    private static final String SQL_ADD_BOOK = "INSERT INTO book (title, author_id) VALUES(?, ?)";
-
     private static final String SQL_GET_BOOK_BY_ID = "" +
             " SELECT b.title, a.id, a.first_name, a.last_name" +
             " FROM book b" +
             " JOIN author a ON b.author_id = a.id" +
             " WHERE b.id = ?";
 
-    private static final String SQL_UPDATE_BOOK = "UPDATE book SET title = ?, author_id = ? WHERE id = ?";
-
-    private static final String SQL_DELETE_BOOK = "DELETE FROM book WHERE id = ?";
-
     private static final String SQL_SEARCH_BOOKS = "" +
             " SELECT b.id, b.title, a.id, a.first_name, a.last_name" +
             " FROM book b" +
             " JOIN author a ON b.author_id = a.id" +
             " WHERE b.title LIKE ?";
+
+    private static final String SQL_ADD_BOOK = "INSERT INTO book (title, author_id) VALUES(?, ?)";
+    private static final String SQL_UPDATE_BOOK = "UPDATE book SET title = ?, author_id = ? WHERE id = ?";
+    private static final String SQL_DELETE_BOOK = "DELETE FROM book WHERE id = ?";
+    private static final String SQL_GET_BOOKS_BY_AUTHOR = "SELECT id, title FROM book WHERE author_id = ?";
 
     private DataSource dataSource;
 
@@ -70,7 +71,31 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findByAuthor(Author author) {
-        return null;
+        List<Book> books = new ArrayList<>();
+        ResultSet rs = null;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_GET_BOOKS_BY_AUTHOR)) {
+
+            ps.setInt(1, author.getId());
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Book book = new Book.Builder(rs.getString(2))
+                        .id(rs.getInt(1))
+                        .author(author)
+                        .build();
+
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cleanUp(rs);
+        }
+
+        return books;
     }
 
     @Override
@@ -193,13 +218,4 @@ public class BookDaoImpl implements BookDao {
         return false;
     }
 
-    private void cleanUp(ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -149,7 +149,7 @@ public class BookControllerServlet extends HttpServlet {
             Integer id = Integer.valueOf(request.getParameter("id"));
             book = bookDao.findById(id);
             if (book == null) {
-                throw new ServletException("There is no book with such id.");
+                throw new ServletException("There is no book with id=" + id);
             }
         } catch (Exception e) {
             e.printStackTrace();

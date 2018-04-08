@@ -17,8 +17,7 @@
     <div class="search">
         <form action="books" method="get">
             <input type="hidden" name="action" value="SEARCH">
-            <input type="text" name="search-pattern" id="search">
-            <input type="submit" value="Search">
+            <input type="text" name="search-pattern" id="search" placeholder="Search...">
         </form>
     </div>
 
@@ -72,11 +71,15 @@
                     &nbsp;&nbsp;&nbsp;
                     <a href="books?${book.slug}&action=DELETE&id=${book.id}"><i class="far fa-trash-alt"></i></a>
                 </td>
-                <td>${book.author.fullName}</td>
+                <td>
+                    <a href="authors?action=LOAD&id=${book.author.id}">${book.author.fullName}</a>
+                </td>
             </tr>
         </c:forEach>
 
     </table>
+
+    <a href="authors">Authors</a>
 
 </div>
 

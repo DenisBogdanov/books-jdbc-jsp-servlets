@@ -8,11 +8,7 @@ public interface AuthorDao {
 
     List<Author> getAll();
 
-    Author getById(Integer id);
+    Author findById(Integer id);
 
     boolean add(Author author);
-
-    boolean update(Author author);
-
-    boolean delete(Author author);
 }
