@@ -39,7 +39,8 @@ public class TestConnectionServlet extends HttpServlet {
             }
 
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
+        throw new ServletException("Hello World!");
     }
 }

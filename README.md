@@ -1,2 +1,2 @@
 # books
-Simple CRUD app using JDBC, JSP, SERTVLETS
+Simple CRUD app using JDBC, JSP, Servlets

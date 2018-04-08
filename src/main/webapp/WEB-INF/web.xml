@@ -14,7 +14,16 @@
         <servlet-name>AuthorControllerServlet</servlet-name>
         <url-pattern>/authors</url-pattern>
     </servlet-mapping>
+    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
 
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/exception.jsp</location>
+    </error-page>
 
     <welcome-file-list>
         <welcome-file>books</welcome-file>
