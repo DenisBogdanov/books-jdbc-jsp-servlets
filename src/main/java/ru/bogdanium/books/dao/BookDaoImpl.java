@@ -179,7 +179,7 @@ public class BookDaoImpl implements BookDao {
             return ps.execute();
 
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }

@@ -59,9 +59,6 @@ public class AuthorControllerServlet extends HttpServlet {
             case "LOAD":
                 loadAuthor(request, response);
                 break;
-//            case "DELETE":
-//                deleteBook(request, response);
-//                break;
             default:
                 getAllAuthors(request, response);
                 break;
